@@ -56,4 +56,6 @@ if __name__ == "__main__":
     with duckdb.connect() as con:
         setup_views(con)
         print("DuckDB is set up")
+
+        con.sql("SELECT * FROM match_info WHERE ")
         # Put your queries here
