@@ -1,6 +1,7 @@
 import re
 from collections import defaultdict
 from typing import Generator, Iterable
+#from locktuah import input_data
 
 import boto3
 import duckdb
@@ -48,12 +49,29 @@ def get_tables() -> dict[str, list[str]]:
 def setup_views(con):
     tables = get_tables()
     for name, url in tables.items():
-        print(f"Creating view for {name}")
-        con.execute(f"DROP VIEW IF EXISTS {name}")
-        con.execute(f"CREATE VIEW {name} AS FROM read_parquet({url})")
+        if name == "match_info" or name == "match_player":
+            print(f"Creating view for {name}")
+            con.execute(f"DROP VIEW IF EXISTS {name}")
+            con.execute(f"CREATE VIEW {name} AS FROM read_parquet({url})")
 
 if __name__ == "__main__":
     with duckdb.connect() as con:
         setup_views(con)
         print("DuckDB is set up")
-        # Put your queries here
+
+        relation = con.query(f"SELECT * FROM match_info WHERE match_outcome='TeamWin' AND match_mode='Ranked' ORDER BY start_time DESC LIMIT 50;")
+        
+        while res := relation.fetchone(): # for each match we have gathered
+            player_relation = con.query(f"SELECT * FROM match_player WHERE match_id={res[0]}") # get player relation
+            match_data = {} # make match data dict
+            all_players_list = [] # make player list
+            for i in range(0, len(relation.columns)-1): # for all matches we want to use
+                match_data[relation.columns[i]] = res[i] #connect data from query to dict
+                while player_res := player_relation.fetchone(): # for each player in match
+                    player_data = {}
+                    for j in range(0, len(player_relation.columns)-1): 
+                        player_data[player_relation.columns[j]] = player_res[j] # add player data to dict
+                    all_players_list.append(player_data)
+            #input_data(match_data, all_players_list)
+        
+        print(relation.show())
