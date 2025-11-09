@@ -18,7 +18,7 @@ def main() :
         train_model(count)
     if argument == "predict" :
         newlist = []
-        for arg in sys.argv[2:8]:
+        for arg in sys.argv[2:9]:
             newlist.append(int(arg))
         
         locktuah.predict(newlist)
