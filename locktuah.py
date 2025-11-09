@@ -100,5 +100,5 @@ def train_reg(x, y):
     model.fit(x, y)
     
     params = np.concatenate((model.intercept_, model.coef_))
-    np.savetxt("save_model.csv", params, delimiter=',', header='intercept,coef', comments='')
+    np.savetxt("save_model.csv", params, delimiter=',', header='intercept,one_worth_coef,two_worth_coef,one_kills_coef,two_kills_coef,one_obj_coef,two_obj_coef,time_coef', comments='')
     
