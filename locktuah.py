@@ -44,7 +44,7 @@ def input_data(match_data, player_datas):
         #loops for each players timestamps 
         for i in range(0,11):
             t = player_datas[i]["team"]
-            if(t == Team1):
+            if(t == "Team1"):
                 one_worth_count += player_datas[i]["stats.net_worth"][x]
                 one_kill_count += player_datas[i]["stats.kills"][x]
                 
