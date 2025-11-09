@@ -114,5 +114,17 @@ def train_reg(x, y):
     print("coefficients: ", model.coef_)
     print("intercept: ", model.intercept_)
     params = np.concatenate(([model.intercept_], model.coef_), axis = 0)
-    np.savetxt("save_model.csv", params, delimiter=',', header='intercept,one_worth_coef,two_worth_coef,one_kills_coef,two_kills_coef,one_obj_coef,two_obj_coef,time_coef', comments='')
-    
+    np.savetxt("save_model.csv", params, delimiter=',', header=model.intercept_, comments='')
+
+def predict(x):
+    global model
+    cool_list = []
+    with open("save_model.csv") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            cool_list.append(row[0])
+
+        model.intercept_ = cool_list[0]
+        model.coef_ = np.array(cool_list[1:])
+        prediction = model.predict(x)
+        print(prediction)
