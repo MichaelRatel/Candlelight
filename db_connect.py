@@ -48,14 +48,19 @@ def get_tables() -> dict[str, list[str]]:
 def setup_views(con):
     tables = get_tables()
     for name, url in tables.items():
-        print(f"Creating view for {name}")
-        con.execute(f"DROP VIEW IF EXISTS {name}")
-        con.execute(f"CREATE VIEW {name} AS FROM read_parquet({url})")
+        if name == "match_info" or name == "match_player":
+            print(f"Creating view for {name}")
+            con.execute(f"DROP VIEW IF EXISTS {name}")
+            con.execute(f"CREATE VIEW {name} AS FROM read_parquet({url})")
 
 if __name__ == "__main__":
     with duckdb.connect() as con:
         setup_views(con)
         print("DuckDB is set up")
+        
 
-        con.sql("SELECT * FROM match_info WHERE ")
+        relation = con.query(f"SELECT match_id, start_time FROM match_info WHERE match_outcome='TeamWin' AND match_mode='Ranked' ORDER BY start_time DESC LIMIT 50;")
+        print(relation.show())
+
         # Put your queries here
+
