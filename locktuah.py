@@ -51,7 +51,7 @@ def input_data(match_data, player_datas):
                 two_kill_count += player_datas[i]["stats.kills"][x]
                 
         #loops for each objective in the world, sees if it is destroyed at the timestamp
-        for a in range(0,len(match_data["objectives"])):
+        for a in range(0,len(match_data["objectives.destroyed_time_s"])):
             if(player_datas[0]["stats.time_stamp_s"][x]<=2100):
                 if(x*180>=match_data["objectives.destroyed_time_s"][a]):
                     if(0==match_data["objectives.team"][a]):
@@ -98,4 +98,7 @@ def input_data(match_data, player_datas):
 def train_reg(x, y):
     global model
     model.fit(x, y)
+    
+    params = np.concatenate((model.intercept_, model.coef_))
+    np.savetxt("save_model.csv", params, delimiter=',', header='intercept,coef', comments='')
     
