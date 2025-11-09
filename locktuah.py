@@ -27,7 +27,7 @@ def input_data(match_data, player_datas):
     team_two_obj_count = []
     real_winner = 1
     winner = match_data["winning_team"]
-    if(winner == "Team1")
+    if(winner == "Team1"):
         real_winner = 0
     time_data = match_data["duration_s"]
     #loops through all time stamps
