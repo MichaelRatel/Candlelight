@@ -1,7 +1,7 @@
 import re
 from collections import defaultdict
 from typing import Generator, Iterable
-#from locktuah import input_data
+from locktuah import input_data
 
 import boto3
 import duckdb
@@ -72,6 +72,6 @@ if __name__ == "__main__":
                     for j in range(0, len(player_relation.columns)-1): 
                         player_data[player_relation.columns[j]] = player_res[j] # add player data to dict
                     all_players_list.append(player_data)
-            #input_data(match_data, all_players_list)
+            input_data(match_data, all_players_list)
         
         print(relation.show())
