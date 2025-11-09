@@ -25,8 +25,10 @@ def input_data(match_data, player_datas):
     team_two_kills = []
     team_one_obj_count = []
     team_two_obj_count = []
-    
+    real_winner = 1
     winner = match_data["winning_team"]
+    if(winner == "Team1")
+        real_winner = 0
     time_data = match_data["duration_s"]
     #loops through all time stamps
     for x in range(0, len(player_datas[0]["stats.time_stamp_s"])):
@@ -42,7 +44,7 @@ def input_data(match_data, player_datas):
         #loops for each players timestamps 
         for i in range(0,11):
             t = player_datas[i]["team"]
-            if(t == 0):
+            if(t == Team1):
                 one_worth_count += player_datas[i]["stats.net_worth"][x]
                 one_kill_count += player_datas[i]["stats.kills"][x]
                 
@@ -75,7 +77,7 @@ def input_data(match_data, player_datas):
         team_two_kills.append(two_kill_count)
         
         time_list.append(player_datas[0]["stats.time_stamp_s"][x])
-        win_list.append(winner)
+        win_list.append(real_winner)
     
     #num_players = len(inter["match_info"]["players"])
     
@@ -99,6 +101,6 @@ def train_reg(x, y):
     global model
     model.fit(x, y)
     
-    params = np.concatenate((model.intercept_, model.coef_))
+    params = np.concatenate(([model.intercept_], model.coef_))
     np.savetxt("save_model.csv", params, delimiter=',', header='intercept,one_worth_coef,two_worth_coef,one_kills_coef,two_kills_coef,one_obj_coef,two_obj_coef,time_coef', comments='')
     
