@@ -54,7 +54,7 @@ def input_data(match_data, player_datas):
         for a in range(0,len(match_data["objectives"])):
             if(player_datas[0]["stats.time_stamp_s"][x]<=2100):
                 if(x*180>=match_data["objectives.destroyed_time_s"][a]):
-                    if(0==match_data["objectives.team"][a]):
+                    if("Team1"==match_data["objectives.team"][a]):
                         two_obj_count+=1
                     else:
                        one_obj_count+=1
@@ -96,6 +96,28 @@ def input_data(match_data, player_datas):
 
 
 def train_reg(x, y):
-    global model
-    model.fit(x, y)
     
+    global model
+    model = model.fit(x, y)
+    print("X: ", x)
+    print("Y: ", y)
+    print("coefficients: ", model.coef_)
+    print("intercept: ", model.intercept_)
+    params = np.concatenate(([model.intercept_], model.coef_), axis = 0)
+    np.savetxt("save_model.csv", params, delimiter=',', header=str(model.intercept_), comments='')
+
+def predict(x):
+    global model
+    coef_list = []
+    x = np.array(x).reshape(1,-1)
+    
+    with open("save_model.csv") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            coef_list.append(row[0])
+
+        model.intercept_ = coef_list[0]
+        model.coef_ = np.array(coef_list[1:])
+        print((x).reshape(1,-1))
+        prediction = model.predict(x)
+        print(prediction)
