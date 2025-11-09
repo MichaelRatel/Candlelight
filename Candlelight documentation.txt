@@ -1,0 +1,14 @@
+Main function
+	Description: allows user to select if they want to initilaize the model using training data, or predict the outcome of a match
+	If the first argument is "train_model", the model is trained with a number of data points equal to the second argument
+	If the second argument is "predict", a prediction is made using the most recent model
+	When predicting the outcome of a game, the arguments are
+		2: time stamp
+		3: team one net worth
+		4: team two net worth
+		5: team one kills
+		6: team two kills
+		7: number of objectives destroyed by team one
+		8: number of objectives destroyed by team two
+	When making a prediction, the predicted winner and confidence will be printed. 
+		
