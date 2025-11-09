@@ -109,15 +109,19 @@ def train_reg(x, y):
 def predict(x):
     global model
     coef_list = []
-    x = np.array(x).reshape(1,-1)
+    new_x = []
+    for thing in x:
+        new_x = int(thing)
+
+    new_x = np.array(new_x).reshape(1,-1)
     
     with open("save_model.csv") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
-            coef_list.append(row[0])
+            coef_list.append(float(row[0]))
 
         model.intercept_ = coef_list[0]
         model.coef_ = np.array(coef_list[1:])
-        print((x).reshape(1,-1))
-        prediction = model.predict(x)
+        print((new_x).reshape(1,-1))
+        prediction = model.predict(new_x)
         print(prediction)
