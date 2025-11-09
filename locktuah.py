@@ -29,7 +29,7 @@ def input_data(match_data, player_datas):
     winner = match_data["winning_team"]
     time_data = match_data["duration_s"]
     
-    for x in range(len(player_datas[0]["stats"])):
+    for x in range(0, len(player_datas[0]["stats"])-1):
         one_worth_count = 0
         two_worth_count = 0
     
@@ -38,16 +38,16 @@ def input_data(match_data, player_datas):
     
         one_obj_count = 0
         two_obj_count = 0
-        for i in range(12):
+        for i in range(0,11):
             t = player_datas[i]["team"]
             if(t == 0):
                 one_worth_count += player_datas[i]["stats.net_worth"][x]
-                one_kill_count += player_datas[i]["stats.kills"][x]["kills"]
+                one_kill_count += player_datas[i]["stats.kills"][x]
                 
             else:
                 two_worth_count += player_datas[i]["stats.net_worth"][x]
                 two_kill_count += player_datas[i]["stats.kills"][x]
-        for a in range(len(match_data["objectives"])):
+        for a in range(0,len(match_data["objectives"])-1):
             if(player_datas[0]["stats.time_stamp_s"][x]<=2100):
                 if(x*180>=match_data["objectives.destroyed_time_s"][a]):
                     if(0==match_data["objectives.team"][a]):
