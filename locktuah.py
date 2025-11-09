@@ -29,7 +29,7 @@ def input_data(match_data, player_datas):
     winner = match_data["winning_team"]
     time_data = match_data["duration_s"]
     #loops through all time stamps
-    for x in range(0, len(player_datas[0]["stats"])):
+    for x in range(0, len(player_datas[0]["stats.time_stamp_s"])):
         one_worth_count = 0
         two_worth_count = 0
     
