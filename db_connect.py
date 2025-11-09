@@ -59,7 +59,7 @@ if __name__ == "__main__":
         setup_views(con)
         print("DuckDB is set up")
 
-        relation = con.query(f"SELECT * FROM match_info WHERE match_outcome='TeamWin' AND match_mode='Ranked' ORDER BY start_time DESC LIMIT 50;")
+        relation = con.query(f"SELECT * FROM match_info WHERE match_outcome='TeamWin' AND match_mode='Ranked' ORDER BY start_time DESC LIMIT 10;")
         
         while res := relation.fetchone(): # for each match we have gathered
             player_relation = con.query(f"SELECT * FROM match_player WHERE match_id={res[0]}") # get player relation

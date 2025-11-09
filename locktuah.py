@@ -11,21 +11,29 @@ av_weights = np.array([0,0,0,0,0,0,0,0,0])
 #team 0 = team 1
 #team 1 = team 2
 
-
-
+global fuck_ass_data
+global win_list
+global time_list
+global team_one_worth
+global team_two_worth
+global team_one_kills
+global team_two_kills
+global team_two_obj_count
+global team_one_obj_count
     
-
+win_list = []
+time_list = []
+team_one_worth = []
+team_two_worth = []
+team_one_kills = []
+team_two_kills = []
+team_one_obj_count = []
+team_two_obj_count = []
 def input_data(match_data, player_datas):
     #initializes empty lists to store then pass to the model
-    win_list = []
-    time_list = []
-    team_one_worth = []
-    team_two_worth = []
-    team_one_kills = []
-    team_two_kills = []
-    team_one_obj_count = []
-    team_two_obj_count = []
+    
     real_winner = 1
+    fuck_ass_data = np.empty(1)
     winner = match_data["winning_team"]
     if(winner == "Team1"):
         real_winner = 0
@@ -93,14 +101,18 @@ def input_data(match_data, player_datas):
       team_two_obj_count,
       time_list
     ])
+
     train_reg(X, win_list)
     
 
 
 def train_reg(x, y):
     global model
-    model.fit(x, y)
-    
-    params = np.concatenate(([model.intercept_], model.coef_))
+    model = model.fit(x, y)
+    print("X: ", x)
+    print("Y: ", y)
+    print("coefficients: ", model.coef_)
+    print("intercept: ", model.intercept_)
+    params = np.concatenate(([model.intercept_], model.coef_), axis = 0)
     np.savetxt("save_model.csv", params, delimiter=',', header='intercept,one_worth_coef,two_worth_coef,one_kills_coef,two_kills_coef,one_obj_coef,two_obj_coef,time_coef', comments='')
     
