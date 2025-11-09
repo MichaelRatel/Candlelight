@@ -54,12 +54,12 @@ def setup_views(con):
             con.execute(f"DROP VIEW IF EXISTS {name}")
             con.execute(f"CREATE VIEW {name} AS FROM read_parquet({url})")
 
-if __name__ == "__main__":
+def load_data_into_model(num_matches):
     with duckdb.connect() as con:
         setup_views(con)
         print("DuckDB is set up")
 
-        relation = con.query(f"SELECT * FROM match_info WHERE match_outcome='TeamWin' AND match_mode='Ranked' ORDER BY start_time DESC LIMIT 50;")
+        relation = con.query(f"SELECT * FROM match_info WHERE match_outcome='TeamWin' AND match_mode='Ranked' ORDER BY start_time DESC LIMIT {num_matches};")
         
         while res := relation.fetchone(): # for each match we have gathered
             player_relation = con.query(f"SELECT * FROM match_player WHERE match_id={res[0]}") # get player relation
@@ -75,3 +75,6 @@ if __name__ == "__main__":
             input_data(match_data, all_players_list)
         
         print(relation.show())
+
+if __name__ == "__main__":
+    load_data_into_model(10) #test
